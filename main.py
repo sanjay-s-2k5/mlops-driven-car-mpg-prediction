@@ -13,7 +13,7 @@ if not hasattr(model, 'predict'):
 
 @app.route('/')
 def home():
-    #return 'Hello World'
+    #.....
     return render_template('home.html')
     #return render_template('index.html')
 
