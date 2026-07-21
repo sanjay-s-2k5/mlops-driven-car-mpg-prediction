@@ -45,15 +45,15 @@ jobs:
             export AWS_SECRET_ACCESS_KEY="${{ secrets.AWS_SECRET_ACCESS_KEY }}"
             export AWS_DEFAULT_REGION="${{ secrets.AWS_REGION }}"
             
-            # Log in to ECR on EC2 instance
+            
             aws ecr get-login-password --region ${{ secrets.AWS_REGION }} | docker login --username AWS --password-stdin ${{ steps.login-ecr.outputs.registry }}
             
-            # Pull latest image from ECR
+          
             docker pull ${{ steps.login-ecr.outputs.registry }}/${{ secrets.ECR_REPOSITORY_NAME }}:latest
             
-            # Stop & remove existing container if running
+        
             docker stop car-mpg-app || true
             docker rm car-mpg-app || true
             
-            # Run new container listening on Port 80
+          
             docker run -d --name car-mpg-app -p 80:5000 -e PORT=5000 ${{ steps.login-ecr.outputs.registry }}/${{ secrets.ECR_REPOSITORY_NAME }}:latest
